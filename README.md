@@ -1,239 +1,162 @@
 FFCSolver
-
-FFCSolver is a command-line based timetable planner for FFCS. It takes the available course offerings and lets the user select courses and preferences before generating a suitable timetable.
-
-The project is made for the VITyarthi project submission and is based on the Python course domain.
-
-What the project does
-
-The program can:
-
-Load course and faculty information from an offerings file.
-
-Let the user select the courses they need.
-
-Prevent the same course from being selected twice.
-
-Take a preferred timing: morning, evening, or any.
-
-Ask whether a lunch gap is required.
-
-Consider AB01/AB02 venue movement.
-
-Allow a teacher preference for each selected subject.
-
-Check timetable clashes.
-
-Generate possible timetables from the available offerings.
-
-Display the final timetable in a day-and-time grid.
-
-Display a detailed version with slot, day, timing, teacher, and venue.
-
-The course data contains the course code, course name, faculty, slot group, component, and venue. The program reads these fields from CONTENT/offerings.txt.
-
-Project structure
-
+FFCSolver is a Python command-line program for generating an FFCS timetable based on course offerings and student preferences.
+The idea is simple: select the courses you need, enter your preferences, and let the program check the available offerings and create a suitable timetable.
+Features
+Select required courses from the available offerings
+Prevent duplicate course selection
+Choose morning, evening, or no timing preference
+Set a lunch-gap preference
+Select a teacher for an individual subject
+Check timetable clashes
+Consider AB01 and AB02 venue movement
+Generate a timetable from the available offerings
+Show the result as a timetable grid
+Show a detailed timetable with slot, day, time, teacher, and venue
+Project Structure
+```text
 FFCSolver/
+│── offerings.txt
 │
-├── offerings.txt
 ├── data_manager.py
 ├── main.py
 ├── prefrences.py
 ├── scheduler.py
 ├── slot_data.py
 └── README.md
-
-File details
-
-main.py
-This is the main file of the project. It connects all the other files, takes user input, generates the timetable, and displays the result.
-
-data_manager.py
-Reads the offerings file and converts each course offering into a dictionary. It also groups the offerings according to course code.
-
-prefrences.py
-Handles user preferences and course/teacher selection.
-
-scheduler.py
-Contains the timetable generation logic. It checks clashes, timing preferences, lunch preference, teacher preference, and AB01/AB02 movement.
-
-slot_data.py
-Contains the mapping between slot names and their day, start time, and end time.
-
-offerings.txt
-Contains the course offering data used by the program.
-
+```
+What each file does
+`main.py`
+This is the starting point of the program. It loads the course data, takes the user's input, calls the scheduler, and displays the generated timetable.
+`data_manager.py`
+Reads `CONTENT/offerings.txt` and stores the course offerings. It also groups the offerings using the course code.
+`prefrences.py`
+Handles the user's general preferences, course selection, and teacher selection.
+`scheduler.py`
+Contains the main timetable logic. It checks conflicts and applies the selected preferences while generating possible timetables.
+`slot_data.py`
+Stores the day, start time, and end time for each slot.
+`CONTENT/offerings.txt`
+Contains the available course offerings and their faculty, slots, component type, and venue.
 Requirements
-
 Python 3.x
-
 Command Prompt or PowerShell
-
-No external Python packages are required.
-
+No external Python packages are required
 Setup
-
-1. Download or clone the repository
-
-Clone the public GitHub repository or download the project files.
-
-Make sure the project has the same folder structure shown above.
-
+1. Clone or download the repository
+Clone the public GitHub repository or download the project.
 2. Check Python
-
-Open Command Prompt or PowerShell and run:
-
+Open Command Prompt or PowerShell:
+```text
 python --version
-
-If python does not work, try:
-
+```
+If that does not work:
+```text
 py --version
-
+```
 Python 3.x should be installed.
-
 3. Open the project folder
-
-Move into the FFCSolver folder:
-
-cd path\\to\\FFCSolver
-
 For example:
-
-cd Desktop\\FFCSolver
-
-4. Check the data file
-
+```text
+cd Desktop\FFCSolver
+```
+Make sure you are in the folder that contains `main.py`.
+4. Check the course data
 Make sure this file exists:
-
+```text
 offerings.txt
-
-The program reads the course data from this file.
-
-5. Run the project
-
-Run:
-
+```
+The program reads the course offerings from this file.
+5. Run the program
+```text
 python main.py
-
+```
 or:
-
+```text
 py main.py
-
-No GUI or additional setup is required.
-
-How to use
-
-When the program starts, it asks for the course codes.
-
-Enter the required course code one at a time:
-
+```
+No GUI setup is required.
+Using the Program
+First, enter the course codes you want.
+Example:
+```text
 Enter course code (or type done): MAT1003
 Enter course code (or type done): CHY1006
 Enter course code (or type done): CSE1021
 Enter course code (or type done): ENG1004
 Enter course code (or type done): done
-
-After selecting courses, the program asks for preferences.
-
-Timing preference
-
-Choose:
-
+```
+The same course cannot be selected twice.
+Timing
+Enter one of:
+```text
 morning
 evening
 any
-
-Lunch preference
-
+```
+Lunch
 Enter:
-
+```text
 yes
-
+```
 or:
-
+```text
 no
-
-AB01/AB02 preference
-
+```
+AB01/AB02
 Enter:
-
+```text
 yes
-
+```
 or:
-
+```text
 no
-
+```
 Teacher preference
-
-For every selected subject, the program asks whether a teacher preference is required.
-
-If yes is selected, the available teachers for that subject are displayed and the user can choose one.
-
-If no is selected, the program does not force a particular teacher for that subject.
-
-Timetable generation
-
-The scheduler first considers the selected teacher preferences and then checks the other timetable preferences.
-
-The slot information is used to determine the actual day and time of each class. For example, slots contain information such as Monday 08:30-10:00, Tuesday 10:05-11:35, and so on.
-
-The scheduler also checks whether two selected offerings have overlapping classes on the same day.
-
-Output
-
-The program displays the generated timetable in a grid similar to a normal college timetable.
-
-The grid contains:
-
-Days
-
-Class timings
-
-Course codes
-
-Faculty
-
-Venue
-
-A detailed timetable is also displayed with:
-
-Course code
-
-Course name
-
-Faculty
-
-Slot
-
-Day
-
-Start time
-
-End time
-
-Venue
-
-Example course data
-
-The offerings file uses the following format:
-
+For each selected course, the program asks whether a teacher preference is required.
+If `yes` is selected, the available teachers for that course are shown and one can be selected.
+If `no` is selected, the scheduler does not force a particular teacher for that course.
+How the Scheduler Works
+The program first loads the available course offerings.
+Each offering contains:
+```text
 course_code|course_name|faculty|slot_group|component|venue
-
+```
 Example:
-
+```text
 MAT1003|Calculus|MANISHA JAIN|A11+A12+A13+A14+D11+D12|LT|AB-519
-
-This contains the course code, course name, faculty, available slot group, component type, and venue.
-
-Important notes
-
-Run the program from the project root directory.
-
-Do not move offerings.txt out of the CONTENT folder.
-
-Keep the Python files together as shown in the project structure.
-
-The project is designed to run completely through the command line.
-
-No external libraries are needed.
+```
+The scheduler uses the slot information to find the actual day and time of each class.
+It then checks whether selected offerings overlap on the same day. Timetables are also checked against the selected preferences.
+Output
+The program gives two views of the generated timetable.
+Timetable Grid
+The first view is arranged by day and time, showing the course code, teacher, and venue.
+Detailed Timetable
+The second view shows:
+Course code
+Course name
+Faculty
+Slot
+Day
+Start time
+End time
+Venue
+Example
+A course offering such as:
+```text
+MAT1003|Calculus|MANISHA JAIN|A11+A12+A13+A14+D11+D12|LT|AB-519
+```
+contains:
+Course: MAT1003
+Name: Calculus
+Faculty: MANISHA JAIN
+Slots: A11, A12, A13, A14, D11, D12
+Component: LT
+Venue: AB-519
+The slot data is then used to determine when each slot takes place.
+Notes
+Run the project from the project root.
+Keep `offerings.txt` 
+Keep the Python files in the project structure shown above.
+No external Python packages are required.
+The generated timetable depends on the course offering data available in `offerings.txt`
