@@ -1,4 +1,3 @@
-FFCSolver
 FFCSolver is a Python command-line program for generating an FFCS timetable based on course offerings and student preferences.
 The idea is simple: select the courses you need, enter your preferences, and let the program check the available offerings and create a suitable timetable.
 Features
